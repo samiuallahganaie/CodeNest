@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareConnect | Doctor Appointments</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8fc;
+      color: #183047;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #075985;
+      color: white;
+      padding: 18px 5%;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav h2 {
+      font-size: 25px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 16px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 55px 20px;
+      background: #dff3ff;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      color: #075985;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #0284c7;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .container {
+      width: min(1000px, 92%);
+      margin: 35px auto;
+    }
+
+    .container h2 {
+      margin-bottom: 18px;
+    }
+
+    .doctors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card, .booking {
+      background: white;
+      padding: 22px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #00000010;
+    }
+
+    .card h3 {
+      color: #075985;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      margin-bottom: 14px;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font: inherit;
+      margin-top: 5px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      background: #0c2d48;
+      color: white;
+      margin-top: 45px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+
+      nav a {
+        margin: 0 6px;
+      }
+
+      .hero {
+        padding: 40px 16px;
+      }
+
+      .container {
+        margin: 25px auto;
+      }
+
+      .card, .booking {
+        padding: 18px;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h2>CareConnect+</h2>
+      <div>
+        <a href="#home">Home</a>
+        <a href="#doctors">Doctors</a>
+        <a href="#booking">Book Appointment</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Your Health, Our Priority</h1>
+    <p>Find a doctor and request your appointment online.</p>
+    <a href="#doctors" class="btn">Find a Doctor</a>
+  </section>
+
+  <main>
+    <section class="container" id="doctors">
+      <h2>Meet Our Doctors</h2>
+
+      <div class="doctors">
+        <article class="card">
+          <h3>Dr. Aisha Khan</h3>
+          <p>General Physician</p>
+          <p>Consultation for general health concerns.</p>
+          <button class="btn" type="button"
+            onclick="chooseDoctor('Dr. Aisha Khan')">
+            Book Appointment
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Dr. Rahul Sharma</h3>
+          <p>Cardiologist</p>
+          <p>Heart health and cardiovascular care.</p>
+          <button class="btn" type="button"
+            onclick="chooseDoctor('Dr. Rahul Sharma')">
+            Book Appointment
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Dr. Sara Ahmed</h3>
+          <p>Dermatologist</p>
+          <p>Skin health and dermatology consultations.</p>
+          <button class="btn" type="button"
+            onclick="chooseDoctor('Dr. Sara Ahmed')">
+            Book Appointment
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section class="container" id="booking">
+      <div class="booking">
+        <h2>Book Your Appointment</h2>
+
+        <form id="appointmentForm">
+          <div>
+            <label for="patient">Patient Name</label>
+            <input id="patient" type="text"
+              placeholder="Enter your name" required>
+          </div>
+
+          <div>
+            <label for="email">Email Address</label>
+            <input id="email" type="email"
+              placeholder="Enter your email" required>
+          </div>
+
+          <div>
+            <label for="doctor">Choose Doctor</label>
+            <select id="doctor" required>
+              <option value="">Select a doctor</option>
+              <option>Dr. Aisha Khan</option>
+              <option>Dr. Rahul Sharma</option>
+              <option>Dr. Sara Ahmed</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="date">Appointment Date</label>
+            <input id="date" type="date" required>
+          </div>
+
+          <div>
+            <label for="time">Preferred Time</label>
+            <select id="time" required>
+              <option value="">Select a time</option>
+              <option>10:00 AM</option>
+              <option>11:00 AM</option>
+              <option>2:00 PM</option>
+              <option>3:00 PM</option>
+            </select>
+          </div>
+
+          <button class="btn" type="submit">
+            Request Appointment
+          </button>
+        </form>
+
+        <p id="message" role="status"
+          aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>CareConnect+ | Doctor Appointment Booking Demo</p>
+    <p>For demonstration only. No real appointment is created.</p>
+  </footer>
+
+  <script>
+    const dateInput = document.getElementById("date");
+    const today = new Date();
+    const localToday = new Date(
+      today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    dateInput.min = localToday;
+
+    function chooseDoctor(name) {
+      document.getElementById("doctor").value = name;
+      document.getElementById("booking").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    document.getElementById("appointmentForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const selectedDate = dateInput.value;
+
+        if (selectedDate < localToday) {
+          document.getElementById("message").textContent =
+            "Please choose today or a future date.";
+          return;
+        }
+
+        document.getElementById("message").textContent =
+          "Demo request completed! No real appointment has been booked.";
+
+        this.reset();
+        dateInput.min = localToday;
+      });
+  </script>
+</body>
+</html>
