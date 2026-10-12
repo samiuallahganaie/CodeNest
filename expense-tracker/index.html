@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Expense Tracker, a small web app by Samiuallah to record and review spending.">
+<title>Expense Tracker | CodeNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#071a1f;--bg-soft:#0b2229;--surface:#10303a;--line:#1e4651;--ink:#e6f4f2;--muted:#9dbcc0;--accent:#2dd4bf;--accent-dark:#14a597;--warm:#fbbf24;--danger:#f87171}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"DM Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+h1,h2{font-family:Fraunces,Georgia,serif}
+:focus-visible{outline:3px solid var(--warm);outline-offset:3px;border-radius:6px}
+.container{width:min(960px,92%);margin:auto}
+header{border-bottom:1px solid var(--line);background:rgba(7,26,31,.9)}
+.bar{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:24px;color:var(--accent);text-decoration:none}
+.back{color:var(--muted);text-decoration:none;font-weight:500}
+.back:hover{color:var(--ink)}
+.hero{text-align:center;padding:48px 0 30px;background:radial-gradient(700px 300px at 50% -10%,#0f5f66 0%,transparent 70%)}
+.hero h1{font-size:clamp(30px,5vw,44px);margin-bottom:8px}
+.hero p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;margin:24px auto 56px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px}
+.card h2{font-size:22px;margin-bottom:16px}
+form{display:grid;gap:14px}
+label{font-weight:700;font-size:15px}
+input,select{width:100%;padding:12px 14px;margin-top:5px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus{border-color:var(--accent)}
+.btn{padding:13px 22px;border:0;border-radius:999px;background:var(--accent);color:#052a2d;font:700 16px "DM Sans",Arial,sans-serif;cursor:pointer;transition:transform .2s,background .2s}
+.btn:hover{background:#5eead4;transform:translateY(-2px)}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.total strong{font-family:Fraunces,Georgia,serif;font-size:32px;color:var(--warm)}
+.cat{margin-bottom:12px}
+.cat-row{display:flex;justify-content:space-between;font-size:15px;margin-bottom:4px}
+.track{height:8px;background:var(--bg);border-radius:8px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--warm));border-radius:8px}
+.list{margin-top:22px;display:grid;gap:10px;list-style:none}
+.item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.item b{display:block}
+.item small{color:var(--muted)}
+.right{display:flex;align-items:center;gap:12px;font-weight:700}
+.del{background:transparent;border:1px solid var(--line);color:var(--danger);border-radius:8px;padding:4px 10px;cursor:pointer;font:inherit}
+.del:hover{border-color:var(--danger)}
+.empty{color:var(--muted);text-align:center;padding:18px 0}
+#msg{margin-top:12px;color:var(--danger);font-weight:500;min-height:1.4em}
+footer{border-top:1px solid var(--line);text-align:center;padding:24px 0;color:var(--muted);font-size:15px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container bar">
+    <a class="logo" href="../index.html">CodeNest.</a>
+    <a class="back" href="../index.html#projects">← Back to projects</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Expense Tracker</h1>
+    <p>Record what you spend and see where your money goes. Data stays in your browser.</p>
+  </div>
+</section>
+
+<main class="container grid">
+  <section class="card" aria-labelledby="add-title">
+    <h2 id="add-title">Add expense</h2>
+    <form id="form">
+      <div>
+        <label for="title">What did you spend on?</label>
+        <input id="title" type="text" maxlength="40" placeholder="e.g. Lunch" required>
+      </div>
+      <div>
+        <label for="category">Category</label>
+        <select id="category">
+          <option>Food</option><option>Travel</option><option>Books</option>
+          <option>Shopping</option><option>Bills</option><option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="amount">Amount (₹)</label>
+        <input id="amount" type="number" min="1" step="0.01" placeholder="0.00" required>
+      </div>
+      <button class="btn" type="submit">Add expense</button>
+    </form>
+    <p id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card" aria-labelledby="sum-title">
+    <h2 id="sum-title">Summary</h2>
+    <div class="total"><span>Total spent</span><strong id="total">₹0</strong></div>
+    <div id="cats"></div>
+    <ul class="list" id="list"></ul>
+  </section>
+</main>
+
+<footer>Expense Tracker | A project by Samiuallah | Built with HTML, CSS &amp; JavaScript</footer>
+
+<script>
+  const KEY = "codenest-expenses";
+  const money = n => "₹" + Number(n).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+  let expenses = [];
+
+  try { expenses = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { expenses = []; }
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(expenses)); } catch (e) {}
+  }
+
+  function el(tag, cls, text) {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function render() {
+    const total = expenses.reduce((sum, x) => sum + x.amount, 0);
+    document.getElementById("total").textContent = money(total);
+
+    const byCat = {};
+    expenses.forEach(x => byCat[x.category] = (byCat[x.category] || 0) + x.amount);
+    const cats = document.getElementById("cats");
+    cats.replaceChildren();
+    Object.entries(byCat).sort((a, b) => b[1] - a[1]).forEach(([name, value]) => {
+      const row = el("div", "cat");
+      const top = el("div", "cat-row");
+      top.append(el("span", "", name), el("span", "", money(value)));
+      const track = el("div", "track");
+      const fill = el("div", "fill");
+      fill.style.width = (value / total * 100) + "%";
+      track.append(fill);
+      row.append(top, track);
+      cats.append(row);
+    });
+
+    const list = document.getElementById("list");
+    list.replaceChildren();
+    if (!expenses.length) {
+      list.append(el("li", "empty", "No expenses yet. Add your first one."));
+      return;
+    }
+    expenses.slice().reverse().forEach(x => {
+      const li = el("li", "item");
+      const left = el("div");
+      left.append(el("b", "", x.title), el("small", "", x.category + " | " + x.date));
+      const right = el("div", "right");
+      const del = el("button", "del", "Delete");
+      del.type = "button";
+      del.setAttribute("aria-label", "Delete " + x.title);
+      del.addEventListener("click", () => {
+        expenses = expenses.filter(e => e.id !== x.id);
+        save(); render();
+      });
+      right.append(el("span", "", money(x.amount)), del);
+      li.append(left, right);
+      list.append(li);
+    });
+  }
+
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    const title = document.getElementById("title").value.trim();
+    const amount = parseFloat(document.getElementById("amount").value);
+    const msg = document.getElementById("msg");
+    if (!title || !(amount > 0)) {
+      msg.textContent = "Enter a title and an amount greater than 0.";
+      return;
+    }
+    msg.textContent = "";
+    expenses.push({
+      id: Date.now(),
+      title,
+      category: document.getElementById("category").value,
+      amount: Math.round(amount * 100) / 100,
+      date: new Date().toLocaleDateString("en-GB")
+    });
+    save(); render();
+    e.target.reset();
+    document.getElementById("title").focus();
+  });
+
+  render();
+</script>
+</body>
+</html>
