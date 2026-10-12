@@ -1,363 +1,237 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Samiuallah's portfolio showcasing web development skills and projects.">
-  <title>Samiuallah | Developer Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Samiuallah Ganaie's portfolio showcasing web development skills and projects.">
+<meta name="theme-color" content="#0a0f1c">
+<title>Samiuallah | Developer Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0f1c; --surface:#111a2e; --surface-2:#16213a; --line:#243252;
+  --ink:#e8edf7; --muted:#9aa8c2; --accent:#4cc3ff; --accent-2:#8b7cff; --warm:#ffc857;
+  color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+h1,h2,h3,.logo{font-family:Sora,Inter,Arial,sans-serif;line-height:1.2}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--warm);outline-offset:3px;border-radius:6px}
+.container{width:min(1080px,90%);margin:auto}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+header{position:sticky;top:0;z-index:10;background:rgba(10,15,28,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-size:23px;font-weight:800}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;flex-wrap:wrap;gap:24px}
+.nav-links a{color:var(--muted);font-weight:500;padding:4px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.nav-links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b1120;
-      color: #e5e7eb;
-      line-height: 1.7;
-    }
+.hero{padding:96px 0 84px;background:radial-gradient(900px 420px at 80% -10%,#1d2f63 0%,transparent 70%),radial-gradient(700px 380px at 0% 100%,#1a2a52 0%,transparent 70%)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--line);background:var(--surface);border-radius:999px;color:var(--muted);font-size:14px;margin-bottom:22px}
+.tag::before{content:"";width:9px;height:9px;border-radius:50%;background:#34d399}
+h1{font-size:clamp(36px,6.5vw,62px);font-weight:800;margin-bottom:18px}
+.grad{background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{max-width:56ch;color:var(--muted);font-size:18px;margin-bottom:30px}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;border-radius:10px;background:linear-gradient(135deg,#2f7bff,#6b5cf0);color:#fff;font-weight:600;border:1px solid transparent;transition:transform .2s,box-shadow .2s,background .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(76,195,255,.22)}
+.btn-outline{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-outline:hover{background:var(--surface-2);border-color:var(--accent);box-shadow:none}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+.code-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.code-bar{display:flex;gap:7px;padding:12px 16px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.code-bar i{width:11px;height:11px;border-radius:50%;background:#3b4a6b}
+.code-body{padding:20px 22px;font:14px/1.9 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--muted)}
+.code-body b{color:var(--accent);font-weight:500}
+.code-body em{color:var(--warm);font-style:normal}
 
-    .container {
-      width: min(1080px, 90%);
-      margin: auto;
-    }
+section{padding:78px 0;scroll-margin-top:70px}
+.section-title{text-align:center;font-size:clamp(26px,4vw,34px);margin-bottom:10px}
+.section-intro{color:var(--muted);text-align:center;margin-bottom:38px}
+.about-text{max-width:720px;margin:auto;text-align:center;color:var(--muted);font-size:18px}
+.alt{background:linear-gradient(180deg,transparent,rgba(17,26,46,.6),transparent)}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: #111827;
-      border-bottom: 1px solid #263247;
-    }
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.skill{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center;font-weight:600;transition:transform .2s,border-color .2s}
+.skill:hover{transform:translateY(-4px);border-color:var(--accent)}
 
-    nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.project-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:10px;transition:transform .2s,border-color .2s}
+.project-card:hover{transform:translateY(-4px);border-color:var(--accent)}
+.project-card h3{font-size:20px;color:var(--accent)}
+.project-card p{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-size:13px;padding:2px 10px;border-radius:999px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.project-link{margin-top:auto;padding-top:6px;color:var(--accent);font-weight:600}
+.project-link:hover{text-decoration:underline;text-underline-offset:4px}
 
-    .logo {
-      font-size: 25px;
-      font-weight: bold;
-      color: #60a5fa;
-    }
+.timeline{max-width:760px;margin:auto;display:grid;gap:16px}
+.item{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent-2);border-radius:12px;padding:20px 24px}
+.item h3{font-size:18px}
+.item .meta{color:var(--warm);font-size:14px;margin-bottom:4px}
+.item p{color:var(--muted)}
 
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 22px;
-    }
+.contact-box{max-width:660px;margin:auto;text-align:center;padding:42px 30px;border-radius:20px;background:linear-gradient(160deg,var(--surface-2),var(--surface));border:1px solid var(--line)}
+.contact-box p{color:var(--muted);margin-bottom:24px}
+.contact-box .actions{justify-content:center}
 
-    .nav-links a:hover {
-      color: #60a5fa;
-    }
+footer{border-top:1px solid var(--line);text-align:center;padding:28px 0;color:var(--muted);font-size:15px}
 
-    .hero {
-      min-height: 480px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 85px 0;
-      background: radial-gradient(circle at top, #1e3a5f, #0b1120 70%);
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 6px 14px;
-      border: 1px solid #3b82f6;
-      border-radius: 30px;
-      color: #93c5fd;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: clamp(36px, 7vw, 62px);
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-
-    .highlight {
-      color: #60a5fa;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: 0 auto 28px;
-      color: #cbd5e1;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 22px;
-      margin: 5px;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      font-weight: bold;
-      transition: transform .2s, background .2s;
-    }
-
-    .btn:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #64748b;
-    }
-
-    .btn-outline:hover {
-      background: #1e293b;
-    }
-
-    section {
-      padding: 75px 0;
-      scroll-margin-top: 70px;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 32px;
-      margin-bottom: 12px;
-    }
-
-    .section-intro {
-      color: #94a3b8;
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .about-text {
-      max-width: 760px;
-      margin: auto;
-      text-align: center;
-      color: #cbd5e1;
-    }
-
-    .skills-grid,
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 18px;
-      margin-top: 30px;
-    }
-
-    .skill,
-    .project-card {
-      background: #111c30;
-      border: 1px solid #263750;
-      border-radius: 14px;
-      padding: 24px;
-      transition: transform .2s, border-color .2s;
-    }
-
-    .skill {
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .skill:hover,
-    .project-card:hover {
-      transform: translateY(-4px);
-      border-color: #60a5fa;
-    }
-
-    .project-card h3 {
-      color: #93c5fd;
-      margin-bottom: 12px;
-    }
-
-    .project-card p {
-      color: #cbd5e1;
-      margin-bottom: 15px;
-    }
-
-    .project-link {
-      color: #60a5fa;
-      font-weight: bold;
-    }
-
-    .contact-box {
-      max-width: 650px;
-      text-align: center;
-      margin: auto;
-      padding: 35px;
-      border-radius: 16px;
-      background: #111c30;
-      border: 1px solid #263750;
-    }
-
-    footer {
-      border-top: 1px solid #263247;
-      text-align: center;
-      padding: 25px 0;
-      color: #94a3b8;
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        padding: 14px 0;
-        flex-direction: column;
-      }
-
-      .nav-links {
-        justify-content: center;
-        gap: 15px;
-      }
-
-      section {
-        padding: 55px 0;
-      }
-
-      .contact-box {
-        padding: 24px 16px;
-      }
-    }
-  </style>
+@media (max-width:820px){
+  .hero{padding:64px 0 56px}
+  .hero-grid{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  nav{padding:12px 0;flex-direction:column;gap:8px}
+  .nav-links{justify-content:center;gap:16px}
+  section{padding:56px 0}
+  .actions .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
 </head>
 
 <body>
-  <header>
-    <nav class="container">
-      <a href="#home" class="logo">CodeNest.</a>
-
-      <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero" id="home">
-      <div class="container">
-        <span class="tag">Computer Science Student</span>
-        <h1>Hi, I'm <span class="highlight">Samiuallah</span></h1>
-        <p>
-          Aspiring Software Developer passionate about web development,
-          programming, and building useful digital experiences.
-        </p>
-        <a href="#projects" class="btn">Explore My Projects</a>
-        <a href="#contact" class="btn btn-outline">Connect With Me</a>
-        <a href="Samiuallah_Ganaie_Resume.pdf"
-          class="btn" download>
-          Download Resume
-        </a>
-        
-<a href="https://www.linkedin.com/in/samiuallah-ganaie-553bb9423/"
-   class="btn"
-   target="_blank"
-   rel="noopener noreferrer">
-  Connect on LinkedIn
-</a>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <p class="section-intro">A little about my journey</p>
-        <div class="about-text">
-          <p>
-            I'm a fourth-year B.Tech Computer Science and Engineering
-            student who enjoys learning new technologies and improving
-            my coding skills. I'm developing my experience in web
-            development and programming while building projects for
-            my portfolio.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills">
-      <div class="container">
-        <h2 class="section-title">My Skills</h2>
-        <p class="section-intro">Technologies I'm learning and practising</p>
-
-        <div class="skills-grid">
-          <div class="skill">HTML5</div>
-          <div class="skill">CSS3</div>
-          <div class="skill">JavaScript</div>
-          <div class="skill">Python</div>
-          <div class="skill">SQL</div>
-          <div class="skill">Git & GitHub</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <div class="container">
-        <h2 class="section-title">My Projects</h2>
-        <p class="section-intro">My learning and development journey</p>
-
-        <div class="projects-grid">
-          <article class="project-card">
-            <h3>CodeNest Portfolio</h3>
-            <p>
-              A responsive personal portfolio built with HTML and CSS
-              and published using GitHub Pages.
-            </p>
-            <a class="project-link"
-               href="https://github.com/samiuallahganaie/CodeNest">
-              View Source Code →
-            </a>
-          </article>
-
-          <article class="project-card">
-            <h3>Healthcare Website</h3>
-            <p>
-              A web development project focused on presenting clinic
-              information and healthcare services.
-            </p>
-           <a href="doctor-appointment/" class="project-link" target="_blank">
-  Live Demo: Doctor Appointment
-</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="container">
-        <h2 class="section-title">Let's Connect</h2>
-        <p class="section-intro">I'm always learning and building.</p>
-
-        <div class="contact-box">
-          <p>
-            Interested in my work or want to connect about
-            software development opportunities?
-          </p>
-          <br>
-          <a class="btn"
-             href="https://github.com/samiuallahganaie">
-            Visit My GitHub
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>© 2026 Samiuallah | Built with HTML & CSS</p>
-      <p>Learning, building, and improving every day.</p>
+<header>
+  <nav class="container" aria-label="Main">
+    <a href="#home" class="logo">CodeNest<span>.</span></a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
     </div>
-  </footer>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <span class="tag">Open to paid internships</span>
+        <h1>Hi, I'm <span class="grad">Samiuallah</span></h1>
+        <p class="lead">Computer Science student and aspiring software developer who enjoys web development, Python and building useful digital experiences.</p>
+        <div class="actions">
+          <a href="#projects" class="btn">Explore my projects</a>
+          <a href="Samiuallah_Ganaie_Resume.pdf" class="btn btn-outline" download>Download resume</a>
+          <a href="https://www.linkedin.com/in/samiuallah-ganaie-553bb9423/" class="btn btn-outline" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+
+      <aside class="code-card" aria-label="Quick profile">
+        <div class="code-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="code-body">
+          <div><b>const</b> developer = {</div>
+          <div>&nbsp;&nbsp;name: <em>"Samiuallah Ganaie"</em>,</div>
+          <div>&nbsp;&nbsp;degree: <em>"B.Tech CSE"</em>,</div>
+          <div>&nbsp;&nbsp;focus: <em>"Web &amp; Python"</em>,</div>
+          <div>&nbsp;&nbsp;graduating: <em>2027</em></div>
+          <div>};</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About me</h2>
+      <p class="section-intro">A little about my journey</p>
+      <div class="about-text">
+        <p>I'm a fourth-year B.Tech Computer Science and Engineering student who enjoys learning new technologies and improving my coding skills. I'm building my experience in web development and programming through projects and internships.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="alt">
+    <div class="container">
+      <h2 class="section-title">My skills</h2>
+      <p class="section-intro">Technologies I'm learning and practising</p>
+      <div class="skills-grid">
+        <div class="skill">HTML5</div>
+        <div class="skill">CSS3</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Python</div>
+        <div class="skill">C</div>
+        <div class="skill">Java</div>
+        <div class="skill">SQL</div>
+        <div class="skill">Git &amp; GitHub</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">My projects</h2>
+      <p class="section-intro">What I've built so far</p>
+      <div class="projects-grid">
+        <article class="project-card">
+          <h3>CodeNest Portfolio</h3>
+          <p>A responsive personal portfolio built with HTML and CSS and published using GitHub Pages.</p>
+          <div class="chips"><span>HTML</span><span>CSS</span><span>GitHub Pages</span></div>
+          <a class="project-link" href="https://github.com/samiuallahganaie/CodeNest" target="_blank" rel="noopener noreferrer">View source code →</a>
+        </article>
+
+        <article class="project-card">
+          <h3>Healthcare Website</h3>
+          <p>A web development project that presents clinic information and healthcare services, with a demo doctor appointment booking page.</p>
+          <div class="chips"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+          <a class="project-link" href="doctor-appointment/" target="_blank" rel="noopener noreferrer">Live demo: doctor appointment →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="alt">
+    <div class="container">
+      <h2 class="section-title">Experience &amp; certificates</h2>
+      <p class="section-intro">Internships and training</p>
+      <div class="timeline">
+        <div class="item">
+          <div class="meta">45-day internship</div>
+          <h3>Web Development Intern, iNeuBytes</h3>
+          <p>Built a healthcare clinic landing page.</p>
+        </div>
+        <div class="item">
+          <div class="meta">Mar 5 – Apr 5, 2025</div>
+          <h3>C Programming Intern, CodTech IT Solutions</h3>
+          <p>Completed a one-month internship in C programming.</p>
+        </div>
+        <div class="item">
+          <div class="meta">Apr 2026</div>
+          <h3>NLP with Azure AI, CloudThat</h3>
+          <p>Certificate in natural language processing with Azure AI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Let's connect</h2>
+      <p class="section-intro">I'm always learning and building.</p>
+      <div class="contact-box">
+        <p>Interested in my work or want to talk about internship and software development opportunities?</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/samiuallahganaie" target="_blank" rel="noopener noreferrer">Visit my GitHub</a>
+          <a class="btn btn-outline" href="https://www.linkedin.com/in/samiuallah-ganaie-553bb9423/" target="_blank" rel="noopener noreferrer">Message on LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Samiuallah Ganaie | Built with HTML &amp; CSS</p>
+    <p>Learning, building, and improving every day.</p>
+  </div>
+</footer>
 </body>
 </html>
