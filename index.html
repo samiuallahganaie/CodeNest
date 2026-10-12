@@ -4,149 +4,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeNest | My Portfolio</title>
+  <meta name="description" content="Samiuallah's portfolio showcasing web development skills and projects.">
+  <title>Samiuallah | Developer Portfolio</title>
+
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #172554;
-      line-height: 1.6;
+      background: #0b1120;
+      color: #e5e7eb;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1080px, 90%);
+      margin: auto;
     }
 
     header {
-      background: #172554;
-      color: white;
-      padding: 20px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #111827;
+      border-bottom: 1px solid #263247;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 16px;
+    nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      color: #60a5fa;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+    }
+
+    .nav-links a:hover {
+      color: #60a5fa;
     }
 
     .hero {
+      min-height: 480px;
+      display: grid;
+      place-items: center;
       text-align: center;
-      padding: 90px 20px;
-      background: linear-gradient(135deg, #dbeafe, #eff6ff);
+      padding: 85px 0;
+      background: radial-gradient(circle at top, #1e3a5f, #0b1120 70%);
     }
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border: 1px solid #3b82f6;
+      border-radius: 30px;
+      color: #93c5fd;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 7vw, 62px);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .highlight {
+      color: #60a5fa;
     }
 
     .hero p {
-      margin-bottom: 24px;
+      max-width: 650px;
+      margin: 0 auto 28px;
+      color: #cbd5e1;
     }
 
-    .button {
+    .btn {
       display: inline-block;
+      padding: 12px 22px;
+      margin: 5px;
+      border-radius: 8px;
       background: #2563eb;
       color: white;
-      padding: 12px 22px;
-      border-radius: 8px;
-      text-decoration: none;
+      font-weight: bold;
+      transition: transform .2s, background .2s;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #64748b;
+    }
+
+    .btn-outline:hover {
+      background: #1e293b;
     }
 
     section {
-      padding: 55px 8%;
+      padding: 75px 0;
+      scroll-margin-top: 70px;
+    }
+
+    .section-title {
       text-align: center;
+      font-size: 32px;
+      margin-bottom: 12px;
     }
 
-    .skills {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 24px;
+    .section-intro {
+      color: #94a3b8;
+      text-align: center;
+      margin-bottom: 35px;
     }
 
-    .skills span {
-      background: white;
-      padding: 15px 24px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px #dbeafe;
+    .about-text {
+      max-width: 760px;
+      margin: auto;
+      text-align: center;
+      color: #cbd5e1;
+    }
+
+    .skills-grid,
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .skill,
+    .project-card {
+      background: #111c30;
+      border: 1px solid #263750;
+      border-radius: 14px;
+      padding: 24px;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .skill {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .skill:hover,
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: #60a5fa;
+    }
+
+    .project-card h3 {
+      color: #93c5fd;
+      margin-bottom: 12px;
+    }
+
+    .project-card p {
+      color: #cbd5e1;
+      margin-bottom: 15px;
+    }
+
+    .project-link {
+      color: #60a5fa;
+      font-weight: bold;
+    }
+
+    .contact-box {
+      max-width: 650px;
+      text-align: center;
+      margin: auto;
+      padding: 35px;
+      border-radius: 16px;
+      background: #111c30;
+      border: 1px solid #263750;
     }
 
     footer {
+      border-top: 1px solid #263247;
       text-align: center;
-      padding: 20px;
-      background: #172554;
-      color: white;
+      padding: 25px 0;
+      color: #94a3b8;
     }
 
     @media (max-width: 600px) {
-      header {
+      nav {
+        padding: 14px 0;
         flex-direction: column;
       }
 
-      nav a {
-        margin: 0 6px;
+      .nav-links {
+        justify-content: center;
+        gap: 15px;
       }
 
-      .hero h1 {
-        font-size: 32px;
+      section {
+        padding: 55px 0;
+      }
+
+      .contact-box {
+        padding: 24px 16px;
       }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <h2>CodeNest</h2>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
+    <nav class="container">
+      <a href="#home" class="logo">CodeNest.</a>
+
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <h1>Hello, I'm Samiuallah!</h1>
-      <p>B.Tech CSE Student | Aspiring Software Developer</p>
-      <a class="button" href="#about">Explore My Portfolio</a>
+    <section class="hero" id="home">
+      <div class="container">
+        <span class="tag">Computer Science Student</span>
+        <h1>Hi, I'm <span class="highlight">Samiuallah</span></h1>
+        <p>
+          Aspiring Software Developer passionate about web development,
+          programming, and building useful digital experiences.
+        </p>
+        <a href="#projects" class="btn">Explore My Projects</a>
+        <a href="#contact" class="btn btn-outline">Connect With Me</a>
+      </div>
     </section>
 
     <section id="about">
-      <h2>About Me</h2>
-      <p>
-        I am a Computer Science student passionate about
-        coding, web development, and learning new technologies.
-      </p>
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-intro">A little about my journey</p>
+        <div class="about-text">
+          <p>
+            I'm a fourth-year B.Tech Computer Science and Engineering
+            student who enjoys learning new technologies and improving
+            my coding skills. I'm developing my experience in web
+            development and programming while building projects for
+            my portfolio.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section id="skills">
-      <h2>My Skills</h2>
-      <div class="skills">
-        <span>HTML</span>
-        <span>CSS</span>
-        <span>JavaScript</span>
-        <span>Python</span>
-        <span>SQL</span>
+      <div class="container">
+        <h2 class="section-title">My Skills</h2>
+        <p class="section-intro">Technologies I'm learning and practising</p>
+
+        <div class="skills-grid">
+          <div class="skill">HTML5</div>
+          <div class="skill">CSS3</div>
+          <div class="skill">JavaScript</div>
+          <div class="skill">Python</div>
+          <div class="skill">SQL</div>
+          <div class="skill">Git & GitHub</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <h2 class="section-title">My Projects</h2>
+        <p class="section-intro">My learning and development journey</p>
+
+        <div class="projects-grid">
+          <article class="project-card">
+            <h3>CodeNest Portfolio</h3>
+            <p>
+              A responsive personal portfolio built with HTML and CSS
+              and published using GitHub Pages.
+            </p>
+            <a class="project-link"
+               href="https://github.com/samiullahganaie/CodeNest">
+              View Source Code →
+            </a>
+          </article>
+
+          <article class="project-card">
+            <h3>Healthcare Website</h3>
+            <p>
+              A web development project focused on presenting clinic
+              information and healthcare services.
+            </p>
+            <span class="project-link">In Progress</span>
+          </article>
+        </div>
       </div>
     </section>
 
     <section id="contact">
-      <h2>Contact Me</h2>
-      <p>Let's connect and build something great!</p>
-      <p>GitHub: samiullahganaie</p>
+      <div class="container">
+        <h2 class="section-title">Let's Connect</h2>
+        <p class="section-intro">I'm always learning and building.</p>
+
+        <div class="contact-box">
+          <p>
+            Interested in my work or want to connect about
+            software development opportunities?
+          </p>
+          <br>
+          <a class="btn"
+             href="https://github.com/samiullahganaie">
+            Visit My GitHub
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 CodeNest. Built with passion.</p>
+    <div class="container">
+      <p>© 2026 Samiuallah | Built with HTML & CSS</p>
+      <p>Learning, building, and improving every day.</p>
+    </div>
   </footer>
 </body>
 </html>
