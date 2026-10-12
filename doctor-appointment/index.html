@@ -1,320 +1,272 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CareConnect | Doctor Appointments</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f8fc;
-      color: #183047;
-      line-height: 1.6;
-    }
-
-    header {
-      background: #075985;
-      color: white;
-      padding: 18px 5%;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    nav h2 {
-      font-size: 25px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 16px;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 55px 20px;
-      background: #dff3ff;
-    }
-
-    .hero h1 {
-      font-size: clamp(28px, 5vw, 42px);
-      color: #075985;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #0284c7;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .container {
-      width: min(1000px, 92%);
-      margin: 35px auto;
-    }
-
-    .container h2 {
-      margin-bottom: 18px;
-    }
-
-    .doctors {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-
-    .card, .booking {
-      background: white;
-      padding: 22px;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px #00000010;
-    }
-
-    .card h3 {
-      color: #075985;
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      margin-bottom: 14px;
-    }
-
-    form {
-      display: grid;
-      gap: 14px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 7px;
-      font: inherit;
-      margin-top: 5px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 22px;
-      background: #0c2d48;
-      color: white;
-      margin-top: 45px;
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-      }
-
-      nav a {
-        margin: 0 6px;
-      }
-
-      .hero {
-        padding: 40px 16px;
-      }
-
-      .container {
-        margin: 25px auto;
-      }
-
-      .card, .booking {
-        padding: 18px;
-      }
-
-      .btn {
-        width: 100%;
-        text-align: center;
-      }
-    }
-    #message {
-    margin-top: 12px;
-    padding: 12px;
-    border-radius: 8px;
-    background-color: #d1fae5;
-    color: #065f46;
-    font-weight: 600;
-    text-align: center;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareConnect+ | Doctor Appointments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f9f8; --surface:#ffffff; --ink:#12303a; --muted:#52707a;
+  --brand:#0e4f55; --brand-ink:#ffffff; --accent:#1fb5a5; --accent-soft:#d9f3ef;
+  --warm:#ffb703; --line:#d3e5e3; --ok-bg:#d8f5ea; --ok-ink:#0b5a3e; --err-bg:#fde4e1; --err-ink:#9b2c20;
+  --shadow:0 6px 22px rgba(14,79,85,.10);
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
-  </style>
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a1b1f; --surface:#112a30; --ink:#e4f2f1; --muted:#9bb8bb;
+    --brand:#16727a; --accent:#3fd4c3; --accent-soft:#16363a; --line:#21454b;
+    --ok-bg:#103c30; --ok-ink:#a6efcf; --err-bg:#451d19; --err-ink:#ffc0b8; --shadow:0 6px 22px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a1b1f; --surface:#112a30; --ink:#e4f2f1; --muted:#9bb8bb;
+  --brand:#16727a; --accent:#3fd4c3; --accent-soft:#16363a; --line:#21454b;
+  --ok-bg:#103c30; --ok-ink:#a6efcf; --err-bg:#451d19; --err-ink:#ffc0b8; --shadow:0 6px 22px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
+body{font-family:"DM Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2}
+:focus-visible{outline:3px solid var(--warm);outline-offset:3px}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--brand);color:var(--brand-ink);padding:14px 5%}
+nav{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;max-width:1100px;margin:auto}
+.logo{font-family:Fraunces,Georgia,serif;font-size:24px;font-weight:700}
+.logo span{color:var(--warm)}
+nav a{color:var(--brand-ink);text-decoration:none;margin-left:18px;font-weight:500;padding-bottom:3px;border-bottom:2px solid transparent}
+nav a:hover{border-bottom-color:var(--warm)}
+
+.hero{background:linear-gradient(135deg,var(--brand) 0%,#0b3a40 100%);color:#fff;padding:72px 5% 88px}
+.hero-inner{max-width:1100px;margin:auto;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(32px,5vw,52px);margin-bottom:14px}
+.hero p{max-width:46ch;color:#cfeceb;margin-bottom:26px;font-size:18px}
+.hero-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:24px}
+.hero-card h3{font-size:18px;margin-bottom:12px}
+.hero-card li{list-style:none;display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid rgba(255,255,255,.14);color:#e3f6f5}
+.hero-card li:first-of-type{border-top:0}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--warm);flex:none}
+
+.btn{display:inline-flex;justify-content:center;align-items:center;background:var(--accent);color:#06322f;padding:13px 24px;border:none;border-radius:999px;text-decoration:none;cursor:pointer;font:700 16px "DM Sans",Arial,sans-serif;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(31,181,165,.35)}
+.btn.outline{background:transparent;color:var(--brand);border:2px solid var(--brand);padding:10px 20px}
+.btn.outline:hover{background:var(--brand);color:var(--brand-ink);box-shadow:none}
+
+.container{width:min(1100px,92%);margin:56px auto}
+.section-head{margin-bottom:24px}
+.section-head h2{font-size:clamp(26px,4vw,34px);color:var(--brand)}
+.section-head p{color:var(--muted)}
+:root[data-theme="dark"] .section-head h2{color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .section-head h2{color:var(--accent)}}
+
+.doctors{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.card,.booking{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.card{padding:26px;display:flex;flex-direction:column;gap:6px}
+.avatar{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font:700 22px Fraunces,Georgia,serif;color:#fff;margin-bottom:10px}
+.a1{background:#0e8f84}.a2{background:#c2410c}.a3{background:#6d4cc2}
+.card h3{font-size:21px}
+.tag{align-self:flex-start;background:var(--accent-soft);color:var(--brand);font-size:14px;font-weight:700;padding:3px 12px;border-radius:999px}
+:root[data-theme="dark"] .tag{color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tag{color:var(--accent)}}
+.card p{color:var(--muted)}
+.card .btn{margin-top:auto}
+.card p+.btn{margin-top:14px}
+
+.booking{padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:.8fr 1.2fr;gap:36px}
+.booking h2{font-size:clamp(26px,4vw,34px);color:var(--brand);margin-bottom:10px}
+:root[data-theme="dark"] .booking h2{color:var(--accent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .booking h2{color:var(--accent)}}
+.booking .side p{color:var(--muted);margin-bottom:14px}
+.note{background:var(--accent-soft);border-left:4px solid var(--accent);padding:12px 14px;border-radius:8px;font-size:15px}
+
+form{display:grid;gap:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label,legend{font-weight:700;font-size:15px}
+input,select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;font:inherit;margin-top:6px;background:var(--bg);color:var(--ink)}
+input:focus,select:focus{border-color:var(--accent);outline:3px solid var(--accent-soft)}
+fieldset{border:0}
+.slots{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.slots input{position:absolute;opacity:0;width:1px;height:1px}
+.slots label{font-weight:500;padding:9px 16px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;background:var(--bg)}
+.slots input:checked+label{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.slots input:focus-visible+label{outline:3px solid var(--warm);outline-offset:2px}
+
+#message{margin-top:16px;padding:0;border-radius:10px;font-weight:600;text-align:center}
+#message.ok,#message.err{padding:13px 14px}
+#message.ok{background:var(--ok-bg);color:var(--ok-ink)}
+#message.err{background:var(--err-bg);color:var(--err-ink)}
+
+footer{text-align:center;padding:28px 5%;background:var(--brand);color:#d3ecea;margin-top:64px;font-size:15px}
+footer strong{color:#fff}
+
+@media (max-width:820px){
+  .hero-inner,.booking{grid-template-columns:1fr}
+  .hero{padding:52px 5% 64px}
+}
+@media (max-width:600px){
+  nav{flex-direction:column}
+  nav a{margin:0 9px}
+  .row{grid-template-columns:1fr}
+  .hero .btn,form .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
 </head>
-
 <body>
-  <header>
-    <nav>
-      <h2>CareConnect+</h2>
-      <div>
-        <a href="#home">Home</a>
-        <a href="#doctors">Doctors</a>
-        <a href="#booking">Book Appointment</a>
-      </div>
-    </nav>
-  </header>
+<header>
+  <nav aria-label="Main">
+    <div class="logo">CareConnect<span>+</span></div>
+    <div>
+      <a href="#home">Home</a>
+      <a href="#doctors">Doctors</a>
+      <a href="#booking">Book appointment</a>
+    </div>
+  </nav>
+</header>
 
-  <section class="hero" id="home">
-    <h1>Your Health, Our Priority</h1>
-    <p>Find a doctor and request your appointment online.</p>
-    <a href="#doctors" class="btn">Find a Doctor</a>
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <h1>Your health, in expert hands</h1>
+      <p>Pick a doctor, choose a time, and send your appointment request in under a minute.</p>
+      <a href="#doctors" class="btn">Find a doctor</a>
+    </div>
+    <aside class="hero-card" aria-label="Why CareConnect+">
+      <h3>What you can do here</h3>
+      <ul>
+        <li><span class="dot"></span>Browse specialists by field</li>
+        <li><span class="dot"></span>Pick a date and time slot</li>
+        <li><span class="dot"></span>Request a visit online</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<main>
+  <section class="container" id="doctors">
+    <div class="section-head">
+      <h2>Meet our doctors</h2>
+      <p>Choose a specialist and we'll fill in the booking form for you.</p>
+    </div>
+    <div class="doctors">
+      <article class="card">
+        <div class="avatar a1" aria-hidden="true">AK</div>
+        <h3>Dr. Aisha Khan</h3>
+        <span class="tag">General Physician</span>
+        <p>Consultation for everyday health concerns, check-ups and referrals.</p>
+        <button class="btn outline" type="button" onclick="chooseDoctor('Dr. Aisha Khan')">Book appointment</button>
+      </article>
+      <article class="card">
+        <div class="avatar a2" aria-hidden="true">RS</div>
+        <h3>Dr. Rahul Sharma</h3>
+        <span class="tag">Cardiologist</span>
+        <p>Heart health, blood pressure and cardiovascular care.</p>
+        <button class="btn outline" type="button" onclick="chooseDoctor('Dr. Rahul Sharma')">Book appointment</button>
+      </article>
+      <article class="card">
+        <div class="avatar a3" aria-hidden="true">SA</div>
+        <h3>Dr. Sara Ahmed</h3>
+        <span class="tag">Dermatologist</span>
+        <p>Skin, hair and nail consultations and treatment plans.</p>
+        <button class="btn outline" type="button" onclick="chooseDoctor('Dr. Sara Ahmed')">Book appointment</button>
+      </article>
+    </div>
   </section>
 
-  <main>
-    <section class="container" id="doctors">
-      <h2>Meet Our Doctors</h2>
-
-      <div class="doctors">
-        <article class="card">
-          <h3>Dr. Aisha Khan</h3>
-          <p>General Physician</p>
-          <p>Consultation for general health concerns.</p>
-          <button class="btn" type="button"
-            onclick="chooseDoctor('Dr. Aisha Khan')">
-            Book Appointment
-          </button>
-        </article>
-
-        <article class="card">
-          <h3>Dr. Rahul Sharma</h3>
-          <p>Cardiologist</p>
-          <p>Heart health and cardiovascular care.</p>
-          <button class="btn" type="button"
-            onclick="chooseDoctor('Dr. Rahul Sharma')">
-            Book Appointment
-          </button>
-        </article>
-
-        <article class="card">
-          <h3>Dr. Sara Ahmed</h3>
-          <p>Dermatologist</p>
-          <p>Skin health and dermatology consultations.</p>
-          <button class="btn" type="button"
-            onclick="chooseDoctor('Dr. Sara Ahmed')">
-            Book Appointment
-          </button>
-        </article>
+  <section class="container" id="booking">
+    <div class="booking">
+      <div class="side">
+        <h2>Book your appointment</h2>
+        <p>Fill in your details and we'll send your request to the doctor.</p>
+        <p class="note">This is a demo. Submitting the form does not create a real appointment.</p>
       </div>
-    </section>
 
-    <section class="container" id="booking">
-      <div class="booking">
-        <h2>Book Your Appointment</h2>
-
+      <div>
         <form id="appointmentForm">
-          <div>
-            <label for="patient">Patient Name</label>
-            <input id="patient" type="text"
-              placeholder="Enter your name" required>
+          <div class="row">
+            <div>
+              <label for="patient">Patient name</label>
+              <input id="patient" type="text" placeholder="Your full name" autocomplete="name" required>
+            </div>
+            <div>
+              <label for="email">Email address</label>
+              <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            </div>
           </div>
 
-          <div>
-            <label for="email">Email Address</label>
-            <input id="email" type="email"
-              placeholder="Enter your email" required>
+          <div class="row">
+            <div>
+              <label for="doctor">Doctor</label>
+              <select id="doctor" required>
+                <option value="">Select a doctor</option>
+                <option>Dr. Aisha Khan</option>
+                <option>Dr. Rahul Sharma</option>
+                <option>Dr. Sara Ahmed</option>
+              </select>
+            </div>
+            <div>
+              <label for="date">Appointment date</label>
+              <input id="date" type="date" required>
+            </div>
           </div>
 
-          <div>
-            <label for="doctor">Choose Doctor</label>
-            <select id="doctor" required>
-              <option value="">Select a doctor</option>
-              <option>Dr. Aisha Khan</option>
-              <option>Dr. Rahul Sharma</option>
-              <option>Dr. Sara Ahmed</option>
-            </select>
-          </div>
+          <fieldset>
+            <legend>Preferred time</legend>
+            <div class="slots">
+              <input type="radio" name="time" id="t1" value="10:00 AM" required><label for="t1">10:00 AM</label>
+              <input type="radio" name="time" id="t2" value="11:00 AM"><label for="t2">11:00 AM</label>
+              <input type="radio" name="time" id="t3" value="2:00 PM"><label for="t3">2:00 PM</label>
+              <input type="radio" name="time" id="t4" value="3:00 PM"><label for="t4">3:00 PM</label>
+            </div>
+          </fieldset>
 
-          <div>
-            <label for="date">Appointment Date</label>
-            <input id="date" type="date" required>
-          </div>
-
-          <div>
-            <label for="time">Preferred Time</label>
-            <select id="time" required>
-              <option value="">Select a time</option>
-              <option>10:00 AM</option>
-              <option>11:00 AM</option>
-              <option>2:00 PM</option>
-              <option>3:00 PM</option>
-            </select>
-          </div>
-
-          <button class="btn" type="submit">
-            Request Appointment
-          </button>
+          <button class="btn" type="submit">Request appointment</button>
         </form>
-
-        <p id="message" role="status"
-          aria-live="polite"></p>
+        <p id="message" role="status" aria-live="polite"></p>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 
-  <footer>
-    <p>CareConnect+ | Doctor Appointment Booking Demo</p>
-    <p>For demonstration only. No real appointment is created.</p>
-  </footer>
+<footer>
+  <p><strong>CareConnect+</strong> | Doctor appointment booking demo</p>
+  <p>For demonstration only. No real appointment is created.</p>
+</footer>
 
-  <script>
-    const dateInput = document.getElementById("date");
-    const today = new Date();
-    const localToday = new Date(
-      today.getTime() - today.getTimezoneOffset() * 60000
-    ).toISOString().split("T")[0];
+<script>
+  const dateInput = document.getElementById("date");
+  const msg = document.getElementById("message");
+  const now = new Date();
+  const localToday = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().split("T")[0];
+  dateInput.min = localToday;
 
-    dateInput.min = localToday;
+  function show(text, type) {
+    msg.textContent = text;
+    msg.className = type;
+  }
 
-    function chooseDoctor(name) {
-      document.getElementById("doctor").value = name;
-      document.getElementById("booking").scrollIntoView({
-        behavior: "smooth"
-      });
+  function chooseDoctor(name) {
+    document.getElementById("doctor").value = name;
+    document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("patient").focus({ preventScroll: true });
+  }
+
+  document.getElementById("appointmentForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (dateInput.value < localToday) {
+      show("Please choose today or a future date.", "err");
+      return;
     }
-
-    document.getElementById("appointmentForm")
-      .addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const selectedDate = dateInput.value;
-
-        if (selectedDate < localToday) {
-          document.getElementById("message").textContent =
-            "Please choose today or a future date.";
-          return;
-        }
-
-        document.getElementById("message").textContent =
-    "Demo request submitted successfully! No real appointment has been booked.";
-
-        this.reset();
-        dateInput.min = localToday;
-      });
-  </script>
+    const name = document.getElementById("patient").value.trim();
+    const doctor = document.getElementById("doctor").value;
+    const time = this.elements["time"].value;
+    show("Thanks, " + name + "! Your request for " + doctor + " on " + dateInput.value + " at " + time +
+      " was submitted. This is a demo, so no real appointment was booked.", "ok");
+    this.reset();
+    dateInput.min = localToday;
+  });
+</script>
 </body>
 </html>
