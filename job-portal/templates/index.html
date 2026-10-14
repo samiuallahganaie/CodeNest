@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack | Application Tracker</title>
+    <meta name="description" content="Manage job applications, track interviews, and organize your job search.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <aside class="sidebar">
+        <a class="brand" href="{{ url_for('index') }}">
+            <span class="brand-icon">J</span>
+            <span>JobTrack<span class="brand-dot">.</span></span>
+        </a>
+
+        <p class="nav-label">WORKSPACE</p>
+        <a class="nav-link active" href="{{ url_for('index') }}">▦ &nbsp; Dashboard</a>
+        <a class="nav-link" href="#applications">▤ &nbsp; Applications</a>
+        <a class="nav-link" href="#add-job">＋ &nbsp; Add application</a>
+
+        <div class="sidebar-bottom">
+            <div class="avatar">SG</div>
+            <div>
+                <strong>Job Seeker</strong>
+                <small>Personal workspace</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">YOUR CAREER WORKSPACE</p>
+                <h1>Dashboard</h1>
+                <p class="subtitle">Keep your job search organized and moving forward.</p>
+            </div>
+            <a class="primary-button top-add" href="#add-job">＋ Add application</a>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <div class="stat-heading"><span>Total applications</span><span class="stat-icon purple">▤</span></div>
+                <h2>{{ stats.total or 0 }}</h2>
+                <p>All tracked opportunities</p>
+            </article>
+            <article class="stat-card">
+                <div class="stat-heading"><span>Applied</span><span class="stat-icon blue">↗</span></div>
+                <h2>{{ stats.applied or 0 }}</h2>
+                <p>Waiting for a response</p>
+            </article>
+            <article class="stat-card">
+                <div class="stat-heading"><span>Interviews</span><span class="stat-icon orange">◷</span></div>
+                <h2>{{ stats.interviews or 0 }}</h2>
+                <p>Opportunities to prepare for</p>
+            </article>
+            <article class="stat-card">
+                <div class="stat-heading"><span>Offers</span><span class="stat-icon green">✓</span></div>
+                <h2>{{ stats.offers or 0 }}</h2>
+                <p>Offers received</p>
+            </article>
+        </section>
+
+        <section class="content-grid">
+            <section class="panel applications-panel" id="applications">
+                <div class="panel-heading">
+                    <div>
+                        <h2>My applications</h2>
+                        <p>Track every opportunity in one place.</p>
+                    </div>
+                    <span class="count-badge">{{ applications|length }} shown</span>
+                </div>
+
+                <form class="filter-bar" method="GET" action="{{ url_for('index') }}">
+                    <input type="search" name="search" placeholder="Search company, role, location..." value="{{ search }}">
+                    <select name="status" aria-label="Filter by status">
+                        <option value="">All statuses</option>
+                        {% for item in ['Applied', 'Interview', 'Offer', 'Rejected', 'Withdrawn'] %}
+                            <option value="{{ item }}" {% if selected_status == item %}selected{% endif %}>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="secondary-button">Filter</button>
+                    {% if search or selected_status %}
+                        <a class="clear-link" href="{{ url_for('index') }}">Clear</a>
+                    {% endif %}
+                </form>
+
+                {% if applications %}
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>COMPANY / ROLE</th>
+                                    <th>LOCATION</th>
+                                    <th>APPLIED</th>
+                                    <th>STATUS</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in applications %}
+                                    <tr>
+                                        <td>
+                                            <div class="company-name">{{ job.company }}</div>
+                                            <div class="role-name">{{ job.role }}</div>
+                                            {% if job.job_url %}
+                                                <a class="job-link" href="{{ job.job_url }}" target="_blank" rel="noopener noreferrer">View job ↗</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="cell-main">{{ job.location or '—' }}</span>
+                                            <span class="cell-sub">{{ job.job_type }}</span>
+                                        </td>
+                                        <td>{{ job.applied_date }}</td>
+                                        <td><span class="status status-{{ job.status|lower }}">{{ job.status }}</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="icon-button edit-button" type="button" data-job-id="{{ job.id }}" aria-label="Edit {{ job.company }}" title="Edit">✎</button>
+                                                <form method="POST" action="{{ url_for('delete_application', application_id=job.id) }}" onsubmit="return confirm('Delete this application?');">
+                                                    <button class="icon-button delete-button" type="submit" aria-label="Delete {{ job.company }}" title="Delete">×</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="details-row" id="details-{{ job.id }}" hidden>
+                                        <td colspan="5">
+                                            <form class="edit-form" method="POST" action="{{ url_for('edit_application', application_id=job.id) }}">
+                                                <h3>Edit application</h3>
+                                                <div class="form-grid">
+                                                    <label>Company *
+                                                        <input name="company" value="{{ job.company }}" required>
+                                                    </label>
+                                                    <label>Job title *
+                                                        <input name="role" value="{{ job.role }}" required>
+                                                    </label>
+                                                    <label>Location
+                                                        <input name="location" value="{{ job.location }}">
+                                                    </label>
+                                                    <label>Job type
+                                                        <select name="job_type">
+                                                            {% for jt in ['Full-time', 'Part-time', 'Internship', 'Contract', 'Remote'] %}
+                                                                <option value="{{ jt }}" {% if job.job_type == jt %}selected{% endif %}>{{ jt }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </label>
+                                                    <label>Salary
+                                                        <input name="salary" value="{{ job.salary }}">
+                                                    </label>
+                                                    <label>Job link
+                                                        <input type="url" name="job_url" value="{{ job.job_url }}">
+                                                    </label>
+                                                    <label>Status
+                                                        <select name="status">
+                                                            {% for st in ['Applied', 'Interview', 'Offer', 'Rejected', 'Withdrawn'] %}
+                                                                <option value="{{ st }}" {% if job.status == st %}selected{% endif %}>{{ st }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </label>
+                                                    <label>Application date
+                                                        <input type="date" name="applied_date" value="{{ job.applied_date }}" required>
+                                                    </label>
+                                                    <label>Interview date
+                                                        <input type="date" name="interview_date" value="{{ job.interview_date }}">
+                                                    </label>
+                                                    <label class="full-width">Notes
+                                                        <textarea name="notes" rows="2">{{ job.notes }}</textarea>
+                                                    </label>
+                                                </div>
+                                                <div class="form-actions">
+                                                    <button type="submit" class="primary-button">Save changes</button>
+                                                    <button type="button" class="secondary-button cancel-edit" data-job-id="{{ job.id }}">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">▤</div>
+                        <h3>{% if search or selected_status %}No matching applications{% else %}Your next opportunity starts here{% endif %}</h3>
+                        <p>{% if search or selected_status %}Try a different search or clear your filters.{% else %}Add your first job application to start tracking your progress.{% endif %}</p>
+                        {% if not search and not selected_status %}
+                            <a href="#add-job" class="primary-button">＋ Add your first job</a>
+                        {% else %}
+                            <a href="{{ url_for('index') }}" class="secondary-button">Clear filters</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="panel add-panel" id="add-job">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Add an application</h2>
+                        <p>Save a new opportunity.</p>
+                    </div>
+                    <span class="add-icon">＋</span>
+                </div>
+
+                <form method="POST" action="{{ url_for('add_application') }}" class="job-form">
+                    <label>Company name *
+                        <input type="text" name="company" placeholder="e.g. Google" maxlength="150" required>
+                    </label>
+                    <label>Job title *
+                        <input type="text" name="role" placeholder="e.g. Software Developer" maxlength="150" required>
+                    </label>
+
+                    <div class="form-grid">
+                        <label>Location
+                            <input type="text" name="location" placeholder="e.g. Bengaluru" maxlength="150">
+                        </label>
+                        <label>Job type
+                            <select name="job_type">
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Internship</option>
+                                <option>Contract</option>
+                                <option>Remote</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <label>Salary / stipend
+                        <input type="text" name="salary" placeholder="e.g. ₹6 LPA or ₹15,000/month" maxlength="100">
+                    </label>
+                    <label>Job posting URL
+                        <input type="url" name="job_url" placeholder="https://example.com/job" maxlength="1000">
+                    </label>
+
+                    <div class="form-grid">
+                        <label>Status
+                            <select name="status">
+                                <option>Applied</option>
+                                <option>Interview</option>
+                                <option>Offer</option>
+                                <option>Rejected</option>
+                                <option>Withdrawn</option>
+                            </select>
+                        </label>
+                        <label>Applied date
+                            <input type="date" name="applied_date" value="{{ today }}" required>
+                        </label>
+                    </div>
+
+                    <label>Interview date (optional)
+                        <input type="date" name="interview_date">
+                    </label>
+                    <label>Notes
+                        <textarea name="notes" rows="3" placeholder="Contact details, preparation notes, follow-up..."></textarea>
+                    </label>
+
+                    <button type="submit" class="primary-button submit-button">Save application <span>→</span></button>
+                    <p class="form-footnote">* Required fields</p>
+                </form>
+            </section>
+        </section>
+
+        <footer class="footer">
+            <span>JobTrack · Personal job search workspace</span>
+            <span>Built with Flask &amp; SQLite</span>
+        </footer>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
