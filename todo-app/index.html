@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="To-Do List, a task manager by Samiuallah with priorities, filters and a progress bar.">
+<title>To-Do List | CodeNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#071a1f;--bg-soft:#0b2229;--surface:#10303a;--line:#1e4651;--ink:#e6f4f2;--muted:#9dbcc0;--accent:#2dd4bf;--accent-dark:#14a597;--warm:#fbbf24;--high:#f87171;--med:#fbbf24;--low:#60a5fa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"DM Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+h1,h2,.logo{font-family:Fraunces,Georgia,serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--warm);outline-offset:3px;border-radius:8px}
+.container{width:min(720px,92%);margin:auto}
+header{border-bottom:1px solid var(--line);background:rgba(7,26,31,.9)}
+.bar{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:24px;font-weight:700;color:var(--accent);text-decoration:none}
+.back{color:var(--muted);text-decoration:none;font-weight:500}
+.back:hover{color:var(--ink)}
+.hero{text-align:center;padding:42px 0 22px;background:radial-gradient(700px 300px at 50% -10%,#0f5f66 0%,transparent 70%)}
+.hero h1{font-size:clamp(30px,5vw,42px);margin-bottom:6px}
+.hero p{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4vw,30px);margin:20px auto 56px;box-shadow:0 18px 44px rgba(0,0,0,.3)}
+form{display:grid;grid-template-columns:1fr auto auto;gap:10px}
+input,select{padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);width:100%}
+input:focus,select:focus{border-color:var(--accent)}
+.btn{padding:12px 22px;border:0;border-radius:999px;background:var(--accent);color:#052a2d;font-weight:700;cursor:pointer;transition:transform .2s,background .2s}
+.btn:hover{background:#5eead4;transform:translateY(-2px)}
+#msg{min-height:1.5em;margin-top:8px;color:var(--high);font-size:15px}
+.progress-wrap{margin:14px 0 18px}
+.progress-top{display:flex;justify-content:space-between;font-size:15px;color:var(--muted);margin-bottom:6px}
+.track{height:10px;background:var(--bg);border-radius:10px;overflow:hidden}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--warm));border-radius:10px;transition:width .3s}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:7px 18px;border:1.5px solid var(--line);border-radius:999px;background:transparent;cursor:pointer;font-weight:500}
+.tab[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#052a2d;font-weight:700}
+ul{list-style:none;display:grid;gap:10px}
+.task{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:12px}
+.task.High{--c:var(--high)}.task.Medium{--c:var(--med)}.task.Low{--c:var(--low)}
+.task input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.task .text{flex:1;word-break:break-word}
+.task.done .text{text-decoration:line-through;color:var(--muted)}
+.task small{display:block;color:var(--muted)}
+.badge{font-size:13px;font-weight:700;color:var(--c);white-space:nowrap}
+.del{background:transparent;border:1px solid var(--line);color:var(--high);border-radius:8px;padding:4px 10px;cursor:pointer}
+.del:hover{border-color:var(--high)}
+.empty{text-align:center;color:var(--muted);padding:20px 0}
+.foot{display:flex;justify-content:flex-end;margin-top:14px}
+.link{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer}
+.link:hover{color:var(--ink)}
+footer{border-top:1px solid var(--line);text-align:center;padding:22px 0;color:var(--muted);font-size:15px}
+@media (max-width:560px){form{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="container bar">
+    <a class="logo" href="../index.html">CodeNest.</a>
+    <a class="back" href="../index.html#projects">&larr; Back to projects</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>To-Do List</h1>
+    <p>Add tasks with a priority, tick them off and track your progress. Saved in your browser.</p>
+  </div>
+</section>
+
+<main class="container">
+  <div class="card">
+    <form id="form">
+      <label class="sr" for="title" hidden>Task</label>
+      <input id="title" type="text" maxlength="60" placeholder="What needs doing?" required>
+      <label for="priority" hidden>Priority</label>
+      <select id="priority" aria-label="Priority">
+        <option>High</option><option selected>Medium</option><option>Low</option>
+      </select>
+      <button class="btn" type="submit">Add task</button>
+    </form>
+    <p id="msg" role="status" aria-live="polite"></p>
+
+    <div class="progress-wrap">
+      <div class="progress-top"><span id="stats">No tasks yet</span><span id="pct">0%</span></div>
+      <div class="track"><i id="bar"></i></div>
+    </div>
+
+    <div class="tabs" role="group" aria-label="Filter tasks">
+      <button class="tab" type="button" data-f="all" aria-pressed="true">All</button>
+      <button class="tab" type="button" data-f="pending" aria-pressed="false">Pending</button>
+      <button class="tab" type="button" data-f="done" aria-pressed="false">Done</button>
+    </div>
+
+    <ul id="list"></ul>
+    <div class="foot"><button class="link" type="button" id="clear">Clear completed</button></div>
+  </div>
+</main>
+
+<footer>To-Do List | A project by Samiuallah | Built with HTML, CSS &amp; JavaScript</footer>
+
+<script>
+  const KEY = "codenest-todos";
+  const RANK = { High: 1, Medium: 2, Low: 3 };
+  let tasks = [];
+  let filter = "all";
+
+  try { tasks = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { tasks = []; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(tasks)); } catch (e) {} }
+
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function render() {
+    const total = tasks.length;
+    const done = tasks.filter(t => t.done).length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById("stats").textContent = total ? done + " of " + total + " done" : "No tasks yet";
+    document.getElementById("pct").textContent = pct + "%";
+    document.getElementById("bar").style.width = pct + "%";
+
+    document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === filter)));
+
+    const shown = tasks
+      .filter(t => filter === "all" || (filter === "done" ? t.done : !t.done))
+      .sort((a, b) => (a.done - b.done) || (RANK[a.priority] - RANK[b.priority]) || (a.id - b.id));
+
+    const list = document.getElementById("list");
+    list.replaceChildren();
+    if (!shown.length) {
+      list.append(el("li", "empty", total ? "No tasks in this view." : "Add your first task above."));
+      return;
+    }
+    shown.forEach(t => {
+      const li = el("li", "task " + t.priority + (t.done ? " done" : ""));
+      const box = el("input");
+      box.type = "checkbox";
+      box.checked = t.done;
+      box.setAttribute("aria-label", "Mark " + t.title + " as done");
+      box.addEventListener("change", () => { t.done = box.checked; save(); render(); });
+      const text = el("div", "text");
+      text.append(el("span", "", t.title), el("small", "", "Added " + t.created));
+      const del = el("button", "del", "Delete");
+      del.type = "button";
+      del.setAttribute("aria-label", "Delete " + t.title);
+      del.addEventListener("click", () => { tasks = tasks.filter(x => x.id !== t.id); save(); render(); });
+      li.append(box, text, el("span", "badge", t.priority), del);
+      list.append(li);
+    });
+  }
+
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    const input = document.getElementById("title");
+    const title = input.value.trim();
+    const msg = document.getElementById("msg");
+    if (!title) { msg.textContent = "Task cannot be empty."; return; }
+    msg.textContent = "";
+    tasks.push({
+      id: Date.now(), title, done: false,
+      priority: document.getElementById("priority").value,
+      created: new Date().toLocaleDateString("en-GB")
+    });
+    save(); render();
+    input.value = "";
+    input.focus();
+  });
+
+  document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => { filter = b.dataset.f; render(); }));
+  document.getElementById("clear").addEventListener("click", () => { tasks = tasks.filter(t => !t.done); save(); render(); });
+
+  render();
+</script>
+</body>
+</html>
