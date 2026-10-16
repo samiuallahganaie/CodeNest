@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="JobTrack, a job application tracker built by Samiuallah with Flask and SQLite.">
+<title>JobTrack | CodeNest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#071a1f;--bg-soft:#0b2229;--surface:#10303a;--line:#1e4651;--ink:#e6f4f2;--muted:#9dbcc0;--accent:#2dd4bf;--warm:#fbbf24}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:"DM Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;display:flex;flex-direction:column}
+.logo{font-family:Fraunces,Georgia,serif;font-size:24px;font-weight:700;color:var(--accent);text-decoration:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--warm);outline-offset:3px;border-radius:8px}
+header{border-bottom:1px solid var(--line);background:rgba(7,26,31,.95)}
+.bar{width:min(1180px,94%);margin:auto;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:8px 18px;border-radius:999px;border:2px solid var(--line);text-decoration:none;font-weight:700;font-size:15px;transition:background .2s,border-color .2s}
+.btn:hover{border-color:var(--accent);background:var(--surface)}
+.btn.main{background:var(--accent);border-color:var(--accent);color:#052a2d}
+.btn.main:hover{background:#5eead4;border-color:#5eead4}
+.note{width:min(1180px,94%);margin:14px auto 10px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warm);border-radius:12px;color:var(--muted);font-size:15px}
+.note b{color:var(--ink)}
+.frame-wrap{flex:1;width:min(1180px,94%);margin:0 auto 20px;min-height:540px;position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.loading{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#334;background:#f4f7f8;padding:20px;z-index:0}
+iframe{z-index:1;background:transparent}
+footer{border-top:1px solid var(--line);text-align:center;padding:16px 0;color:var(--muted);font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <a class="logo" href="../index.html">CodeNest.</a>
+    <div class="links">
+      <a class="btn" href="../index.html#projects">&larr; Back to projects</a>
+      <a class="btn main" href="https://jobtrack-9ibe.onrender.com" target="_blank" rel="noopener noreferrer">Open in a new tab</a>
+    </div>
+  </div>
+</header>
+
+<p class="note"><b>JobTrack</b> is a job application tracker built with Python Flask and SQLite, hosted on Render. The first load can take up to a minute while the server wakes up. This is a public demo, so please don't enter personal information.</p>
+
+<div class="frame-wrap">
+  <div class="loading"><p>Loading JobTrack...<br>If nothing appears, use <b>Open in a new tab</b> above.</p></div>
+  <iframe src="https://jobtrack-9ibe.onrender.com" title="JobTrack application" loading="lazy"></iframe>
+</div>
+
+<footer>JobTrack | A project by Samiuallah | Built with Flask &amp; SQLite</footer>
+</body>
+</html>
